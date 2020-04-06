@@ -36,7 +36,7 @@ func main() {
 	})
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist"))))
-	http.ListenAndServe(":8099", nil)
+	http.ListenAndServe(":8000", nil)
 }
 
 func generateVideoPageData (keyID string, rawKey string, rawURL string, coverURL string) VideoPageData {
