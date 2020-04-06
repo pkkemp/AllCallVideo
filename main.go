@@ -21,7 +21,6 @@ type VideoPageData struct {
 func main() {
 
 	keyID := "APKAIJ6FUGQSVTWYI4QQ"
-	rawURL := "https://cdn.honeybadgers.tech/video/View_From_A_Blue_Moon_Trailer-1080p.mp4"
 	coverURL := "https://cdn.honeybadgers.tech/video/Honeybadger-Dark.jpg"
 	fileKey, err := ioutil.ReadFile("priv.key")
 	if err != nil {
@@ -31,6 +30,8 @@ func main() {
 
 	tmpl := template.Must(template.ParseFiles("video.html"))
 	http.HandleFunc("/watch", func(w http.ResponseWriter, r *http.Request) {
+		video := r.URL.Query().Get("video")
+		rawURL := "https://cdn.honeybadgers.tech/video/" + video
 		data := generateVideoPageData(keyID, rawKey, rawURL, coverURL)
 		tmpl.Execute(w, data)
 	})
