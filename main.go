@@ -19,7 +19,6 @@ type VideoPageData struct {
 }
 
 func main() {
-
 	keyID := "APKAIJ6FUGQSVTWYI4QQ"
 	coverURL := "https://cdn.honeybadgers.tech/video/Honeybadger-Dark.jpg"
 	fileKey, err := ioutil.ReadFile("priv.key")
