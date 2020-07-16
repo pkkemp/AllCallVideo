@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rsa"
 	"crypto/x509"
+	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"github.com/aws/aws-sdk-go/service/cloudfront/sign"
@@ -34,6 +35,21 @@ func main() {
 		data := generateVideoPageData(keyID, rawKey, rawURL, coverURL)
 		tmpl.Execute(w, data)
 	})
+	http.HandleFunc("/getVideo", func(w http.ResponseWriter, r *http.Request) {
+		video := r.URL.Query().Get("video")
+		rawURL := "https://cdn.honeybadgers.tech/video/" + video
+		data := generateVideoPageData(keyID, rawKey, rawURL, coverURL)
+
+		js, err := json.Marshal(data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	})
+
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist"))))
 	http.ListenAndServe(":8000", nil)
