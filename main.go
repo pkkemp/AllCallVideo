@@ -49,7 +49,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	for _, c := range cookies {
 		http.SetCookie(w, c)
 	}
-	http.FileServer(http.Dir("/public")).ServeHTTP(w, r)
+	http.FileServer(http.Dir("./public")).ServeHTTP(w, r)
 }
 
 func main() {
