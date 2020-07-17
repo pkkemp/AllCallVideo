@@ -38,8 +38,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Or get Signed cookies for a resource that will expire in 1 hour
 	// and set path and domain of cookies
 	cookies, err := s.Sign("*", time.Now().Add(1 * time.Hour), func(o *sign.CookieOptions) {
-		o.Path = "/"
-		o.Domain = "video.honeybadgers.tech"
+		o.Path = "/video"
+		o.Domain = "cdn.honeybadgers.tech"
 	})
 	if err != nil {
 		fmt.Println("failed to create signed cookies", err)
@@ -91,7 +91,7 @@ func main() {
 
 
 	http.HandleFunc("/", handler)
-	
+
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist"))))
 	http.ListenAndServe(":8000", nil)
