@@ -25,7 +25,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	rawKey := string(fileKey)
-	fmt.Fprintf(w, "Hello World!")
 	privKey, _ := ParseRsaPrivateKeyFromPemStr(rawKey)
 	s := sign.NewCookieSigner(keyID, privKey)
 	//// Get Signed cookies for a resource that will expire in 1 hour
