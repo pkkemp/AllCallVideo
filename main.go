@@ -25,6 +25,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	rawKey := string(fileKey)
+	fmt.Fprintf(w, "Hello World!")
 	privKey, _ := ParseRsaPrivateKeyFromPemStr(rawKey)
 	s := sign.NewCookieSigner(keyID, privKey)
 	//// Get Signed cookies for a resource that will expire in 1 hour
@@ -36,10 +37,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	// Or get Signed cookies for a resource that will expire in 1 hour
 	// and set path and domain of cookies
-	cookies, err := s.Sign("cdn.honeybadgers.tech", time.Now().Add(1 * time.Hour))
+	cookies, err := s.Sign("https://*", time.Now().Add(1 * time.Hour), func(o *sign.CookieOptions) {
+		o.Path = "/video"
+		o.Domain = ".honeybadgers.tech"
+		o.Secure = true
+	})
 	if err != nil {
 		fmt.Println("failed to create signed cookies", err)
-		return
 	}
 
 	// Server Response via http.ResponseWriter
