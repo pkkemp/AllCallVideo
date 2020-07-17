@@ -36,7 +36,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	// Or get Signed cookies for a resource that will expire in 1 hour
 	// and set path and domain of cookies
-	cookies, err := s.Sign("*", time.Now().Add(1 * time.Hour))
+	cookies, err := s.Sign("cdn.honeybadgers.tech", time.Now().Add(1 * time.Hour))
 	if err != nil {
 		fmt.Println("failed to create signed cookies", err)
 		return
